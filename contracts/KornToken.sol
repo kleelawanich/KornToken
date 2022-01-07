@@ -13,9 +13,6 @@ contract KornToken is ERC20{
     uint256 public exchangeRate;
     IERC20 public kornGold;
 
-    mapping(address => uint256) balances;
-    mapping(address => mapping(address => uint256)) allowed;
-
     constructor(
         string memory _name,
         string memory _symbol,
@@ -46,7 +43,7 @@ contract KornToken is ERC20{
         @return Success boolean
      */
     function burn(uint256 _value) public returns (bool) {
-        require(balances[msg.sender] >= _value, "Insufficient balance");
+        require(balanceOf(msg.sender) >= _value, "Insufficient balance");
         _burn(msg.sender, _value);
         kornGold.transfer(msg.sender, _value * exchangeRate);
         return true;
